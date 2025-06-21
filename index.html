@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AVPSY1 - 动漫视频网盘分享平台</title>
+    <!-- 资源预加载 -->
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
     <!-- 主AdSense脚本 -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7482183704344535" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -162,6 +165,28 @@
         
         .ad-container:empty {
             background: rgba(255, 255, 255, 0.05);
+        }
+        
+        /* 新增广告占位符 */
+        .ad-placeholder {
+            min-height: 90px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #ffbca7;
+            background: rgba(42, 8, 69, 0.3);
+            width: 100%;
+        }
+        
+        .spinner.small {
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(255, 126, 95, 0.3);
+            border-top: 3px solid #ff7e5f;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 10px;
         }
         
         .table-container {
@@ -589,6 +614,10 @@
         
         <!-- 顶部横幅广告 -->
         <div class="ad-container">
+            <div class="ad-placeholder"> <!-- 新增广告占位符 -->
+                <div class="spinner small"></div>
+                <span>广告加载中...</span>
+            </div>
             <!-- AVPSY1顶部横幅广告 -->
             <ins class="adsbygoogle"
                 style="display:block"
@@ -596,9 +625,6 @@
                 data-ad-slot="3298494401"
                 data-ad-format="auto"
                 data-full-width-responsive="true"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
         </div>
         
         <div class="content-wrapper">
@@ -792,23 +818,29 @@
                 }, 300 * index);
             });
             
-            // 广告加载后检查
-            setTimeout(() => {
-                const ads = document.querySelectorAll('.adsbygoogle');
-                if (ads.length > 0) {
-                    ads.forEach(ad => {
-                        ad.setAttribute('data-loading', 'lazy');
-                    });
+            // 广告懒加载
+            const adContainer = document.querySelector('.ad-container');
+            const adObserver = new IntersectionObserver((entries) => {
+                if(entries[0].isIntersecting) {
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    adObserver.disconnect();
+                    
+                    // 广告加载后隐藏占位符
+                    setTimeout(() => {
+                        document.querySelector('.ad-placeholder').style.display = 'none';
+                    }, 500);
                 }
-                
-                // 添加广告加载失败处理
-                adsbygoogle.push({}).catch(error => {
-                    console.error('AdSense加载失败: ', error);
-                    document.querySelectorAll('.ad-container').forEach(container => {
-                        container.innerHTML = '<p class="ad-fallback">广告加载中...</p>';
-                    });
-                });
-            }, 3000);
+            }, { threshold: 0.1 });
+            
+            adObserver.observe(adContainer);
+            
+            // 广告加载失败处理
+            adsbygoogle.push({}).catch(error => {
+                console.error('AdSense加载失败: ', error);
+                const placeholder = document.querySelector('.ad-placeholder');
+                placeholder.innerHTML = '<p>广告加载失败，刷新页面重试</p>';
+                placeholder.style.color = '#ff7e5f';
+            });
         });
     </script>
 </body>
