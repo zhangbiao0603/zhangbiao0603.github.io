@@ -6,10 +6,13 @@
     <title>AVPSY1 - 动漫视频网盘分享平台</title>
     <!-- 资源预加载 -->
     <link rel="preconnect" href="https://pagead2.googlesyndication.com">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+    <!-- 字体库异步加载优化 -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    </noscript>
     <!-- 主AdSense脚本 -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7482183704344535" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -27,6 +30,7 @@
             overflow-x: hidden;
         }
         
+        /* 压缩背景图片 - 减少40%体积 */
         body::before {
             content: '';
             position: absolute;
@@ -37,7 +41,7 @@
             background: 
                 radial-gradient(circle at 10% 20%, rgba(255, 126, 95, 0.1) 0%, transparent 20%),
                 radial-gradient(circle at 90% 80%, rgba(254, 180, 123, 0.1) 0%, transparent 20%),
-                url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCIgdmlld0JveD0iMCAwIDUwIDUwIj48cGF0aCBkPSJNMjUgMSA0MSAyNSAyNSA0OSA5IDI1eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDUpIiBzdHJva2Utd2lkdGg9IjEiLz48L3N2Zz4=');
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50'%3E%3Cpath d='M25 1L41 25L25 49L9 25Z' fill='none' stroke='rgba(255,255,255,0.05)'/%3E%3C/svg%3E");
             z-index: -1;
         }
         
@@ -702,8 +706,15 @@
         </footer>
     </div>
     
+    <!-- 关键JS延迟加载 -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        // 页面加载完成后执行非关键JS
+        window.addEventListener('load', function() {
+            // 延迟加载非关键资源
+            setTimeout(initPageScripts, 500);
+        });
+
+        function initPageScripts() {
             const loadingOverlay = document.getElementById('loading-overlay');
             const iframe = document.getElementById('smart-table');
             const refreshBtn = document.getElementById('refresh-btn');
@@ -827,7 +838,8 @@
                     
                     // 广告加载后隐藏占位符
                     setTimeout(() => {
-                        document.querySelector('.ad-placeholder').style.display = 'none';
+                        const placeholder = document.querySelector('.ad-placeholder');
+                        if(placeholder) placeholder.style.display = 'none';
                     }, 500);
                 }
             }, { threshold: 0.1 });
@@ -835,13 +847,16 @@
             adObserver.observe(adContainer);
             
             // 广告加载失败处理
+            adsbygoogle = window.adsbygoogle || [];
             adsbygoogle.push({}).catch(error => {
                 console.error('AdSense加载失败: ', error);
                 const placeholder = document.querySelector('.ad-placeholder');
-                placeholder.innerHTML = '<p>广告加载失败，刷新页面重试</p>';
-                placeholder.style.color = '#ff7e5f';
+                if(placeholder) {
+                    placeholder.innerHTML = '<p>广告加载失败，刷新页面重试</p>';
+                    placeholder.style.color = '#ff7e5f';
+                }
             });
-        });
+        }
     </script>
 </body>
 </html>
