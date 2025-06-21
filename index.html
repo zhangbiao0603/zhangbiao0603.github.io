@@ -153,7 +153,7 @@
             margin-bottom: 0;
         }
         
-        /* 广告容器样式 */
+        /* 广告容器样式优化 */
         .ad-container {
             margin: 15px auto;
             text-align: center;
@@ -168,13 +168,18 @@
             background: rgba(42, 8, 69, 0.5);
             border: 1px solid rgba(255, 126, 95, 0.3);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: min-height 0.5s ease;
+        }
+        
+        .ad-container.ad-loaded {
+            min-height: auto;
         }
         
         .ad-container:empty {
             background: rgba(255, 255, 255, 0.05);
         }
         
-        /* 新增广告占位符 */
+        /* 广告占位符优化 */
         .ad-placeholder {
             min-height: 90px;
             display: flex;
@@ -184,6 +189,12 @@
             color: #ffbca7;
             background: rgba(42, 8, 69, 0.3);
             width: 100%;
+            animation: pulse-bg 2s infinite alternate;
+        }
+        
+        @keyframes pulse-bg {
+            0% { background-color: rgba(42, 8, 69, 0.3); }
+            100% { background-color: rgba(42, 8, 69, 0.5); }
         }
         
         .spinner.small {
@@ -501,6 +512,16 @@
             transform: translateY(-50%);
         }
         
+        /* 广告错误提示 */
+        .ad-error {
+            padding: 15px;
+            text-align: center;
+            background: rgba(255, 100, 100, 0.15);
+            border: 1px solid rgba(255, 100, 100, 0.4);
+            border-radius: 8px;
+            color: #ffbca7;
+        }
+        
         @media (max-width: 768px) {
             h1 {
                 font-size: 2.5rem;
@@ -563,12 +584,11 @@
             }
             
             .content-wrapper {
-                gap: 25px; /* 增加移动端内容区域间距 */
+                gap: 25px;
             }
             
             .player-section {
                 padding: 18px;
-                /* 重点优化：增加表格区域与播放器区域之间的间距 */
                 margin-top: 25px !important;
             }
             
@@ -577,12 +597,10 @@
                 margin-top: 30px;
             }
             
-            /* 移动端减少过渡区域高度 */
             .spacing-area {
                 height: 20px;
             }
             
-            /* 移动端间距调整 */
             header {
                 margin-bottom: 20px;
                 padding: 20px 15px;
@@ -596,7 +614,6 @@
                 padding: 15px;
             }
             
-            /* 重点优化：增加表格容器底部与播放器区域顶部的间距 */
             .table-container {
                 margin-bottom: 30px;
             }
@@ -710,38 +727,98 @@
         </footer>
     </div>
     
-    <!-- 关键JS延迟加载 -->
+    <!-- 优化后的广告脚本 -->
     <script>
-        // 页面加载完成后执行非关键JS
-        window.addEventListener('load', function() {
-            // 延迟加载非关键资源
-            setTimeout(initPageScripts, 500);
-        });
-
-        // 广告初始化函数
+        // 广告初始化函数（增强版）
         function initAds() {
             const adContainer = document.querySelector('.ad-container');
+            const placeholder = document.querySelector('.ad-placeholder');
             
-            // 立即加载首屏广告
-            (adsbygoogle = window.adsbygoogle || []).push({});
+            // 确保广告脚本已加载
+            if(!window.adsbygoogle) {
+                // 重新加载广告脚本
+                const script = document.createElement('script');
+                script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7482183704344535';
+                script.crossOrigin = 'anonymous';
+                script.async = true;
+                document.head.appendChild(script);
+                
+                // 添加加载状态监听
+                script.onload = () => {
+                    initGoogleAds();
+                };
+                script.onerror = () => {
+                    console.error('AdSense script failed to load');
+                    showFallbackAd();
+                };
+            } else {
+                initGoogleAds();
+            }
             
-            // 添加广告加载状态检测
-            const adCheckInterval = setInterval(() => {
-                const adElement = document.querySelector('.adsbygoogle iframe');
-                if(adElement) {
+            function initGoogleAds() {
+                // 确保广告对象存在
+                if(!window.adsbygoogle) {
+                    console.error('AdSense library not loaded');
+                    showFallbackAd();
+                    return;
+                }
+                
+                // 添加广告错误事件监听
+                window.addEventListener('error', function(e) {
+                    if (e.target.tagName === 'INS' && e.target.className.includes('adsbygoogle')) {
+                        console.error('Ad error occurred:', e);
+                        showFallbackAd();
+                    }
+                }, true);
+                
+                // 添加广告加载状态检测
+                const adCheckInterval = setInterval(() => {
+                    const adElement = document.querySelector('.adsbygoogle iframe');
+                    if(adElement) {
+                        clearInterval(adCheckInterval);
+                        placeholder.style.display = 'none';
+                        adContainer.classList.add('ad-loaded');
+                        console.log('Ad successfully loaded');
+                    }
+                }, 500);
+                
+                // 初始化广告
+                try {
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                } catch (e) {
+                    console.error('Ad initialization error:', e);
+                    showFallbackAd();
+                }
+                
+                // 添加超时回退
+                setTimeout(() => {
                     clearInterval(adCheckInterval);
-                    document.querySelector('.ad-placeholder').style.display = 'none';
-                }
-            }, 200);
+                    if(placeholder && placeholder.style.display !== 'none') {
+                        console.warn('Ad loading timed out');
+                        showFallbackAd();
+                    }
+                }, 8000); // 延长超时时间至8秒
+            }
             
-            // 添加超时回退
-            setTimeout(() => {
-                clearInterval(adCheckInterval);
-                const placeholder = document.querySelector('.ad-placeholder');
-                if(placeholder.style.display !== 'none') {
-                    placeholder.innerHTML = '<p>广告加载中，请稍候...</p>';
-                }
-            }, 5000);
+            function showFallbackAd() {
+                if (!placeholder) return;
+                
+                placeholder.innerHTML = `
+                    <a href="https://avpsy1.com/pro" target="_blank" style="
+                        display: block; 
+                        padding: 15px;
+                        background: linear-gradient(135deg, #3a1a5a, #1a0a2e);
+                        border-radius: 10px;
+                        color: #feb47b;
+                        text-decoration: none;
+                        font-weight: bold;
+                        border: 1px solid rgba(255, 126, 95, 0.4);
+                    ">
+                        <i class="fas fa-star"></i> AVPSY1 PRO会员 - 解锁更多资源
+                    </a>
+                `;
+                placeholder.style.animation = 'none';
+            }
         }
 
         // 页面其他脚本初始化
@@ -861,8 +938,16 @@
             });
         }
         
-        // 优先初始化广告
-        setTimeout(initAds, 300);
+        // 页面加载完成后执行非关键JS
+        window.addEventListener('load', function() {
+            // 延迟加载非关键资源
+            setTimeout(initPageScripts, 500);
+        });
+        
+        // 优先初始化广告（DOM就绪后）
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(initAds, 1000);
+        });
     </script>
 </body>
 </html>
