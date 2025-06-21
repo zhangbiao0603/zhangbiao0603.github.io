@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVPSY1 - 动漫视频网盘同步分享平台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AdSense 自动广告代码 -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7482183704344535"
+     crossorigin="anonymous"></script>
+    
+    <!-- 添加的AdSense验证辅助 -->
+    <meta name="google-adsense-platform-account" content="ca-pub-7482183704344535">
+    <meta name="google-adsense-platform-domain" content="github.io">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f1a3d, #2a0845, #0f1a3d);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(255, 126, 95, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(254, 180, 123, 0.1) 0%, transparent 20%),
+                url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCIgdmlld0JveD0iMCAwIDUwIDUwIj48cGF0aCBkPSJNMjUgMSA0MSAyNSAyNSA0OSA5IDI1eiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDUpIiBzdHJva2Utd2lkdGg9IjEiLz48L3N2Zz4=');
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 30px 20px;
+            position: relative;
+            background: rgba(10, 15, 35, 0.7);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,126,95,0.2) 0%, transparent 70%);
+            z-index: -1;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .logo-icon {
+            font-size: 3rem;
+            color: #ff7e5f;
+            animation: pulse 2s infinite;
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+            color: #e0e0ff;
+        }
+        
+        .security-note {
+            background: rgba(255, 126, 95, 0.15);
+            border: 1px solid rgba(255, 126, 95, 0.4);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px auto 10px;
+            max-width: 800px;
+            font-size: 1rem;
+            color: #ffd8c9;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .security-note::before {
+            content: '🔒';
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            font-size: 1.5rem;
+            opacity: 0.3;
+        }
+        
+        .security-note::after {
+            content: '⚠️';
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.5rem;
+            opacity: 0.3;
+        }
+        
+        .security-note strong {
+            color: #ff7e5f;
+        }
+        
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            margin-bottom: 15px;
+        }
+        
+        .table-container {
+            background: rgba(10, 15, 35, 0.7);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .table-header {
+            background: linear-gradient(to right, #1a0a2e, #3a1a5a);
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .table-header h2 {
+            font-size: 1.7rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .table-header .icon {
+            font-size: 1.8rem;
+            color: #ff7e5f;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .control-btn {
+            background: rgba(255, 126, 95, 0.2);
+            border: 1px solid rgba(255, 126, 95, 0.4);
+            color: #ffbca7;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .control-btn:hover {
+            background: rgba(255, 126, 95, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .update-info {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 6px 12px;
+            border-radius: 6px;
+        }
+        
+        .table-wrapper {
+            height: 600px;
+            padding: 0;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* 关键CSS：隐藏表格顶部栏 */
+        .table-wrapper iframe {
+            width: 100%;
+            height: calc(100% + 50px);
+            border: none;
+            background: #fff;
+            position: relative;
+            top: -50px;
+        }
+        
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 15, 35, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            transition: opacity 0.5s ease;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 126, 95, 0.3);
+            border-top: 5px solid #ff7e5f;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        /* 广告容器样式 */
+        .ad-container {
+            background: rgba(10, 15, 35, 0.7);
+            border-radius: 15px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+            border: 1px solid rgba(255, 126, 95, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .ad-container h3 {
+            color: #feb47b;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1.4rem;
+        }
+        
+        .ad-container h3 i {
+            color: #ff7e5f;
+        }
+        
+        .ad-content {
+            width: 100%;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(42, 8, 69, 0.3);
+            border-radius: 10px;
+            padding: 10px;
+        }
+        
+        .player-section {
+            background: rgba(10, 15, 35, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 15px 0;
+            text-align: center;
+            border: 1px solid rgba(255, 126, 95, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+        
+        .player-section h2 {
+            color: #feb47b;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .player-section h2 i {
+            color: #ff7e5f;
+        }
+        
+        .player-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .player-card {
+            background: rgba(42, 8, 69, 0.5);
+            padding: 25px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 126, 95, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .player-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .player-card h3 {
+            color: #feb47b;
+            margin-bottom: 20px;
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .player-card h3 i {
+            color: #ff7e5f;
+        }
+        
+        .player-card p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            color: #0f1a3d;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: bold;
+            text-decoration: none;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 126, 95, 0.4);
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 126, 95, 0.6);
+        }
+        
+        .download-btn i {
+            margin-right: 8px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 25px;
+            margin-top: 15px;
+            background: rgba(10, 15, 35, 0.7);
+            border-radius: 15px;
+            font-size: 0.95rem;
+            opacity: 0.9;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        
+        .anime-character {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 4rem;
+            opacity: 0.15;
+            transform: rotate(15deg);
+            z-index: -1;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes highlight {
+            0% { box-shadow: 0 0 0 0 rgba(255, 126, 95, 0.6); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 126, 95, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 126, 95, 0); }
+        }
+        
+        .highlight {
+            animation: highlight 2s ease-in-out infinite;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .table-wrapper {
+                height: 400px;
+            }
+            
+            .table-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .controls {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .player-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            /* 移动端调整 */
+            .table-wrapper iframe {
+                height: calc(100% + 40px);
+                top: -40px;
+            }
+            
+            .player-section {
+                padding: 20px;
+                margin: 10px 0;
+            }
+            
+            footer {
+                padding: 20px;
+                margin-top: 10px;
+            }
+            
+            /* 移动端广告调整 */
+            .ad-container {
+                padding: 10px;
+                margin: 10px 0;
+            }
+            
+            .ad-container h3 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="anime-character">(◕‿◕✿)</div>
+    
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-cloud-download-alt logo-icon"></i>
+                <h1>AVPSY1</h1>
+            </div>
+            <p class="subtitle">Anime Video Pan Sync - 动漫迷专属的视频网盘同步分享平台</p>
+            
+            <div class="security-note">
+                为防和谐：所有网盘资源🔒已加密（VREnc）保存下载后用加密播放器观看！建议使用"UC网盘"保存下载，——上传下载不限速，网速有多快，速度就有多快。
+            </div>
+        </header>
+        
+        <!-- 顶部广告单元 -->
+        <div class="ad-container">
+            <h3><i class="fas fa-ad"></i> 支持我们</h3>
+            <div class="ad-content">
+                <!-- AdSense 广告单元 -->
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7482183704344535"
+                     crossorigin="anonymous"></script>
+                <!-- AVPSY1_顶部广告 -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-7482183704344535"
+                     data-ad-slot="3298494401"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+        
+        <div class="content-wrapper">
+            <div class="table-container">
+                <div class="table-header">
+                    <h2><span class="icon"><i class="fas fa-table"></i></span> 最新动漫资源同步表格</h2>
+                    <div class="controls">
+                        <div class="control-btn" id="refresh-btn">
+                            <i class="fas fa-sync-alt"></i> 刷新表格
+                        </div>
+                        <div class="control-btn" id="fullscreen-btn">
+                            <i class="fas fa-expand"></i> 全屏查看
+                        </div>
+                        <div class="update-info">
+                            <i class="fas fa-clock"></i> 最后更新: <span id="update-time">2023年10月15日 14:30:25</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="table-wrapper">
+                    <div class="loading-overlay" id="loading-overlay">
+                        <div class="spinner"></div>
+                        <p>正在加载智能表格，请稍候...</p>
+                    </div>
+                    <!-- 原始表格链接 -->
+                    <iframe src="https://kdocs.cn/l/cmIOHXpUdbOo" id="smart-table" frameborder="0"></iframe>
+                </div>
+            </div>
+            
+            <!-- 表格下方广告单元 -->
+            <div class="ad-container">
+                <h3><i class="fas fa-ad"></i> 推荐资源</h3>
+                <div class="ad-content">
+                    <!-- AdSense 广告单元 -->
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7482183704344535"
+                         crossorigin="anonymous"></script>
+                    <!-- AVPSY1_表格下方广告 -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-7482183704344535"
+                         data-ad-slot="3298494401"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </div>
+            
+            <div class="player-section">
+                <h2><i class="fas fa-lock"></i> 加密播放器下载</h2>
+                
+                <div class="player-grid">
+                    <div class="player-card">
+                        <h3><i class="fab fa-windows"></i> Windows播放器</h3>
+                        <p><strong>运行环境:</strong> Windows 7/8/10/11</p>
+                        <p>保存网盘下载安装包</p>
+                        <a href="https://pan.baidu.com/s/1Veoa8WP7CAktgeaV6o2JJQ?pwd=0603" class="download-btn" target="_blank">
+                            <i class="fas fa-download"></i> 下载安装包
+                        </a>
+                    </div>
+                    
+                    <div class="player-card">
+                        <h3><i class="fab fa-apple"></i> Mac播放器</h3>
+                        <p><strong>运行环境:</strong> OSX 10.12+</p>
+                        <p>保存网盘下载安装包</p>
+                        <a href="https://pan.baidu.com/s/1YXNvdBESnnfGw_qlGjP7kw?pwd=0603" class="download-btn" target="_blank">
+                            <i class="fas fa-download"></i> 下载安装包
+                        </a>
+                    </div>
+                    
+                    <div class="player-card">
+                        <h3><i class="fas fa-mobile-alt"></i> 手机/平板播放器</h3>
+                        <p><strong>运行环境:</strong> Android & iOS</p>
+                        <p>保存网盘下载安装包</p>
+                        <a href="https://pan.baidu.com/s/1D6nkHlOEVMXv8dw4CTFnbQ?pwd=0603" class="download-btn" target="_blank">
+                            <i class="fas fa-download"></i> 下载安装包
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 播放器下方广告单元 -->
+            <div class="ad-container">
+                <h3><i class="fas fa-ad"></i> 热门动漫</h3>
+                <div class="ad-content">
+                    <!-- AdSense 广告单元 -->
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7482183704344535"
+                         crossorigin="anonymous"></script>
+                    <!-- AVPSY1_播放器下方广告 -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-7482183704344535"
+                         data-ad-slot="3298494401"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 AVPSY1 - Anime Video Pan Sync | 动漫视频网盘同步分享平台</p>
+            <p>免责声明：本平台所有资源均来自网络，仅供学习交流使用，请于下载后24小时内删除</p>
+        </footer>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 文件存在性验证
+            fetch('/ads.txt')
+                .then(response => {
+                    if(!response.ok) console.log('ads.txt验证: 文件未找到');
+                    else console.log('ads.txt验证: 文件存在');
+                })
+                .catch(error => console.log('ads.txt验证失败', error));
+            
+            const loadingOverlay = document.getElementById('loading-overlay');
+            const iframe = document.getElementById('smart-table');
+            const refreshBtn = document.getElementById('refresh-btn');
+            const fullscreenBtn = document.getElementById('fullscreen-btn');
+            const updateTime = document.getElementById('update-time');
+            const tableWrapper = document.querySelector('.table-wrapper');
+            const securityNote = document.querySelector('.security-note');
+            
+            // 初始加载
+            setTimeout(() => {
+                loadingOverlay.style.opacity = '0';
+                setTimeout(() => {
+                    loadingOverlay.style.display = 'none';
+                }, 500);
+            }, 2000);
+            
+            // 刷新按钮功能
+            refreshBtn.addEventListener('click', function() {
+                loadingOverlay.style.display = 'flex';
+                loadingOverlay.style.opacity = '1';
+                
+                // 重新加载iframe
+                iframe.src = iframe.src;
+                
+                // 更新最后刷新时间
+                const now = new Date();
+                updateTime.textContent = now.toLocaleString('zh-CN', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+                
+                // 添加动画效果
+                refreshBtn.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> 刷新中...';
+                setTimeout(() => {
+                    refreshBtn.innerHTML = '<i class="fas fa-sync-alt"></i> 刷新表格';
+                }, 1500);
+                
+                // 隐藏加载动画
+                setTimeout(() => {
+                    loadingOverlay.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingOverlay.style.display = 'none';
+                    }, 500);
+                }, 1500);
+            });
+            
+            // 全屏按钮功能
+            fullscreenBtn.addEventListener('click', function() {
+                if (document.fullscreenElement) {
+                    // 退出全屏
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    } else if (document.mozCancelFullScreen) {
+                        document.mozCancelFullScreen();
+                    } else if (document.webkitExitFullscreen) {
+                        document.webkitExitFullscreen();
+                    } else if (document.msExitFullscreen) {
+                        document.msExitFullscreen();
+                    }
+                    fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i> 全屏查看';
+                } else {
+                    // 进入全屏
+                    if (tableWrapper.requestFullscreen) {
+                        tableWrapper.requestFullscreen();
+                    } else if (tableWrapper.mozRequestFullScreen) {
+                        tableWrapper.mozRequestFullScreen();
+                    } else if (tableWrapper.webkitRequestFullscreen) {
+                        tableWrapper.webkitRequestFullscreen();
+                    } else if (tableWrapper.msRequestFullscreen) {
+                        tableWrapper.msRequestFullscreen();
+                    }
+                    fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i> 退出全屏';
+                }
+            });
+            
+            // 监听全屏状态变化
+            document.addEventListener('fullscreenchange', handleFullscreenChange);
+            document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+            document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+            document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+            
+            function handleFullscreenChange() {
+                if (!document.fullscreenElement && 
+                    !document.webkitFullscreenElement && 
+                    !document.mozFullScreenElement &&
+                    !document.msFullscreenElement) {
+                    fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i> 全屏查看';
+                }
+            }
+            
+            // 安全提示动画
+            setTimeout(() => {
+                securityNote.classList.add('highlight');
+            }, 3000);
+            
+            // 动画效果
+            const cards = document.querySelectorAll('.player-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                }, 300 * index);
+            });
+            
+            // 初始化所有广告单元
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        });
+    </script>
+</body>
+</html>
