@@ -3,17 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AVPSY1 - 动漫视频网盘同步分享平台</title>
+    <title>AVPSY1 - 动漫视频网盘分享平台</title>
+    <!-- 主AdSense脚本 -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7482183704344535" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- AdSense 自动广告代码 -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7482183704344535"
-     crossorigin="anonymous"></script>
-    
-    <!-- 添加的AdSense验证辅助 -->
-    <meta name="google-adsense-platform-account" content="ca-pub-7482183704344535">
-    <meta name="google-adsense-platform-domain" content="github.io">
-    
     <style>
         * {
             margin: 0;
@@ -53,7 +46,7 @@
         
         header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             padding: 30px 20px;
             position: relative;
             background: rgba(10, 15, 35, 0.7);
@@ -76,7 +69,7 @@
         
         h1 {
             font-size: 3.5rem;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             letter-spacing: 2px;
             background: linear-gradient(to right, #ff7e5f, #feb47b);
             -webkit-background-clip: text;
@@ -89,7 +82,7 @@
             justify-content: center;
             align-items: center;
             gap: 15px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         
         .logo-icon {
@@ -102,7 +95,7 @@
             font-size: 1.3rem;
             opacity: 0.9;
             max-width: 700px;
-            margin: 0 auto;
+            margin: 0 auto 20px;
             line-height: 1.6;
             color: #e0e0ff;
         }
@@ -112,7 +105,7 @@
             border: 1px solid rgba(255, 126, 95, 0.4);
             border-radius: 10px;
             padding: 15px;
-            margin: 20px auto 10px;
+            margin: 0 auto;
             max-width: 800px;
             font-size: 1rem;
             color: #ffd8c9;
@@ -147,7 +140,28 @@
             display: flex;
             flex-direction: column;
             gap: 25px;
-            margin-bottom: 15px;
+            margin-bottom: 0;
+        }
+        
+        /* 广告容器样式 */
+        .ad-container {
+            margin: 15px auto;
+            text-align: center;
+            max-width: 1200px;
+            padding: 0 20px;
+            border-radius: 12px;
+            overflow: hidden;
+            min-height: 90px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(42, 8, 69, 0.5);
+            border: 1px solid rgba(255, 126, 95, 0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .ad-container:empty {
+            background: rgba(255, 255, 255, 0.05);
         }
         
         .table-container {
@@ -254,139 +268,10 @@
             margin-bottom: 20px;
         }
         
-        /* 广告容器样式 */
-        .ad-container {
-            background: rgba(10, 15, 35, 0.7);
-            border-radius: 15px;
-            padding: 15px;
-            margin: 15px 0;
-            text-align: center;
-            border: 1px solid rgba(255, 126, 95, 0.3);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-            min-height: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .ad-container h3 {
-            color: #feb47b;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-size: 1.4rem;
-        }
-        
-        .ad-container h3 i {
-            color: #ff7e5f;
-        }
-        
-        .ad-content {
-            width: 100%;
-            min-height: 90px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(42, 8, 69, 0.3);
-            border-radius: 10px;
-            padding: 10px;
-        }
-        
-        .player-section {
-            background: rgba(10, 15, 35, 0.7);
-            border-radius: 15px;
-            padding: 30px;
-            margin: 15px 0;
-            text-align: center;
-            border: 1px solid rgba(255, 126, 95, 0.3);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-        }
-        
-        .player-section h2 {
-            color: #feb47b;
-            margin-bottom: 30px;
-            font-size: 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
-        
-        .player-section h2 i {
-            color: #ff7e5f;
-        }
-        
-        .player-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 20px;
-        }
-        
-        .player-card {
-            background: rgba(42, 8, 69, 0.5);
-            padding: 25px;
-            border-radius: 15px;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 126, 95, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .player-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-        }
-        
-        .player-card h3 {
-            color: #feb47b;
-            margin-bottom: 20px;
-            font-size: 1.6rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .player-card h3 i {
-            color: #ff7e5f;
-        }
-        
-        .player-card p {
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
-        
-        .download-btn {
-            display: inline-block;
-            background: linear-gradient(to right, #ff7e5f, #feb47b);
-            color: #0f1a3d;
-            padding: 12px 25px;
-            border-radius: 50px;
-            font-weight: bold;
-            text-decoration: none;
-            margin-top: 15px;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(255, 126, 95, 0.4);
-        }
-        
-        .download-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(255, 126, 95, 0.6);
-        }
-        
-        .download-btn i {
-            margin-right: 8px;
-        }
-        
         footer {
             text-align: center;
-            padding: 25px;
-            margin-top: 15px;
+            padding: 20px 15px;
+            margin-top: 40px;
             background: rgba(10, 15, 35, 0.7);
             border-radius: 15px;
             font-size: 0.95rem;
@@ -403,6 +288,147 @@
             opacity: 0.15;
             transform: rotate(15deg);
             z-index: -1;
+        }
+        
+        .player-section {
+            background: rgba(10, 15, 35, 0.7);
+            border-radius: 15px;
+            padding: 22px;
+            text-align: center;
+            border: 1px solid rgba(255, 126, 95, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+        
+        .player-section h2 {
+            color: #feb47b;
+            margin-bottom: 18px;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .player-section h2 i {
+            color: #ff7e5f;
+        }
+        
+        .single-player-card {
+            background: linear-gradient(135deg, rgba(42, 8, 69, 0.7), rgba(26, 10, 46, 0.8));
+            border-radius: 15px;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            border: 1px solid rgba(255, 126, 95, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .player-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 18px;
+        }
+        
+        .player-title h3 {
+            font-size: 1.7rem;
+            color: #feb47b;
+            margin: 0;
+        }
+        
+        .player-title i {
+            font-size: 2.2rem;
+            color: #ff7e5f;
+        }
+        
+        .player-description {
+            font-size: 1.1rem;
+            margin-bottom: 18px;
+            line-height: 1.6;
+            color: #e0e0ff;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 12px 18px;
+            border-radius: 8px;
+            border-left: 4px solid #ff7e5f;
+        }
+        
+        .download-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 18px;
+            margin-top: 18px;
+        }
+        
+        .download-link {
+            flex: 1;
+            min-width: 220px;
+            max-width: 260px;
+            background: rgba(255, 126, 95, 0.15);
+            border: 1px solid rgba(255, 126, 95, 0.4);
+            border-radius: 10px;
+            padding: 18px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .download-link:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 126, 95, 0.25);
+            box-shadow: 0 8px 20px rgba(255, 126, 95, 0.3);
+        }
+        
+        .download-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+        }
+        
+        .download-link h4 {
+            color: #feb47b;
+            margin-bottom: 12px;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .download-link h4 i {
+            color: #ff7e5f;
+            font-size: 1.2rem;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            color: #0f1a3d;
+            padding: 10px 18px;
+            border-radius: 50px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(255, 126, 95, 0.4);
+            width: 100%;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(255, 126, 95, 0.6);
+        }
+        
+        .download-btn i {
+            margin-right: 6px;
         }
         
         @keyframes spin {
@@ -426,9 +452,36 @@
             animation: highlight 2s ease-in-out infinite;
         }
         
+        /* 新增间距过渡区域 */
+        .spacing-area {
+            height: 30px;
+            position: relative;
+        }
+        
+        .spacing-area::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, rgba(255, 126, 95, 0.3), transparent);
+            transform: translateY(-50%);
+        }
+        
         @media (max-width: 768px) {
             h1 {
                 font-size: 2.5rem;
+                margin-bottom: 12px;
+            }
+            
+            .logo {
+                margin-bottom: 15px;
+            }
+            
+            .subtitle {
+                margin-bottom: 15px;
+                font-size: 1.1rem;
             }
             
             .table-wrapper {
@@ -438,6 +491,7 @@
             .table-header {
                 flex-direction: column;
                 align-items: flex-start;
+                padding: 15px;
             }
             
             .controls {
@@ -445,34 +499,74 @@
                 justify-content: space-between;
             }
             
-            .player-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            /* 移动端调整 */
             .table-wrapper iframe {
                 height: calc(100% + 40px);
                 top: -40px;
             }
             
+            .ad-container {
+                padding: 0 10px;
+            }
+            
+            .download-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .download-link {
+                width: 100%;
+                max-width: 100%;
+                padding: 15px;
+            }
+            
+            .player-title h3 {
+                font-size: 1.5rem;
+                text-align: center;
+            }
+            
+            .player-description {
+                font-size: 1rem;
+                padding: 10px 15px;
+            }
+            
+            .content-wrapper {
+                gap: 25px; /* 增加移动端内容区域间距 */
+            }
+            
             .player-section {
-                padding: 20px;
-                margin: 10px 0;
+                padding: 18px;
+                /* 重点优化：增加表格区域与播放器区域之间的间距 */
+                margin-top: 25px !important;
             }
             
             footer {
-                padding: 20px;
-                margin-top: 10px;
+                padding: 15px;
+                margin-top: 30px;
             }
             
-            /* 移动端广告调整 */
-            .ad-container {
-                padding: 10px;
-                margin: 10px 0;
+            /* 移动端减少过渡区域高度 */
+            .spacing-area {
+                height: 20px;
             }
             
-            .ad-container h3 {
-                font-size: 1.2rem;
+            /* 移动端间距调整 */
+            header {
+                margin-bottom: 20px;
+                padding: 20px 15px;
+            }
+            
+            .security-note {
+                padding: 12px;
+            }
+            
+            .single-player-card {
+                padding: 15px;
+            }
+            
+            /* 重点优化：增加表格容器底部与播放器区域顶部的间距 */
+            .table-container {
+                margin-bottom: 30px;
             }
         }
     </style>
@@ -486,37 +580,31 @@
                 <i class="fas fa-cloud-download-alt logo-icon"></i>
                 <h1>AVPSY1</h1>
             </div>
-            <p class="subtitle">Anime Video Pan Sync - 动漫迷专属的视频网盘同步分享平台</p>
+            <p class="subtitle">Anime Video Pan Sync - 动漫迷专属的视频网盘分享平台</p>
             
             <div class="security-note">
-                为防和谐：所有网盘资源🔒已加密（VREnc）保存下载后用加密播放器观看！建议使用"UC网盘"保存下载，——上传下载不限速，网速有多快，速度就有多快。
+                <strong>版权声明：</strong>本平台严格遵守版权法规，仅提供动漫资源分享服务，所有内容均来自公开网络资源。用户应确保使用资源符合当地法律法规。
             </div>
         </header>
         
-        <!-- 顶部广告单元 -->
+        <!-- 顶部横幅广告 -->
         <div class="ad-container">
-            <h3><i class="fas fa-ad"></i> 支持我们</h3>
-            <div class="ad-content">
-                <!-- AdSense 广告单元 -->
-                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7482183704344535"
-                     crossorigin="anonymous"></script>
-                <!-- AVPSY1_顶部广告 -->
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="ca-pub-7482183704344535"
-                     data-ad-slot="3298494401"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
-                <script>
-                     (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-            </div>
+            <!-- AVPSY1顶部横幅广告 -->
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-7482183704344535"
+                data-ad-slot="3298494401"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
         </div>
         
         <div class="content-wrapper">
             <div class="table-container">
                 <div class="table-header">
-                    <h2><span class="icon"><i class="fas fa-table"></i></span> 最新动漫资源同步表格</h2>
+                    <h2><span class="icon"><i class="fas fa-table"></i></span> 最新资源同步表格</h2>
                     <div class="controls">
                         <div class="control-btn" id="refresh-btn">
                             <i class="fas fa-sync-alt"></i> 刷新表格
@@ -540,96 +628,56 @@
                 </div>
             </div>
             
-            <!-- 表格下方广告单元 -->
-            <div class="ad-container">
-                <h3><i class="fas fa-ad"></i> 推荐资源</h3>
-                <div class="ad-content">
-                    <!-- AdSense 广告单元 -->
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7482183704344535"
-                         crossorigin="anonymous"></script>
-                    <!-- AVPSY1_表格下方广告 -->
-                    <ins class="adsbygoogle"
-                         style="display:block"
-                         data-ad-client="ca-pub-7482183704344535"
-                         data-ad-slot="3298494401"
-                         data-ad-format="auto"
-                         data-full-width-responsive="true"></ins>
-                    <script>
-                         (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
-                </div>
-            </div>
-            
             <div class="player-section">
-                <h2><i class="fas fa-lock"></i> 加密播放器下载</h2>
+                <h2><i class="fas fa-play-circle"></i> 播放器下载</h2>
                 
-                <div class="player-grid">
-                    <div class="player-card">
-                        <h3><i class="fab fa-windows"></i> Windows播放器</h3>
-                        <p><strong>运行环境:</strong> Windows 7/8/10/11</p>
-                        <p>保存网盘下载安装包</p>
-                        <a href="https://pan.baidu.com/s/1Veoa8WP7CAktgeaV6o2JJQ?pwd=0603" class="download-btn" target="_blank">
-                            <i class="fas fa-download"></i> 下载安装包
-                        </a>
+                <div class="single-player-card">
+                    <div class="player-title">
+                        <i class="fas fa-download"></i>
+                        <h3>Windows/Mac/手机/平板</h3>
                     </div>
                     
-                    <div class="player-card">
-                        <h3><i class="fab fa-apple"></i> Mac播放器</h3>
-                        <p><strong>运行环境:</strong> OSX 10.12+</p>
-                        <p>保存网盘下载安装包</p>
-                        <a href="https://pan.baidu.com/s/1YXNvdBESnnfGw_qlGjP7kw?pwd=0603" class="download-btn" target="_blank">
-                            <i class="fas fa-download"></i> 下载安装包
-                        </a>
+                    <div class="player-description">
+                        支持多种视频格式播放，让您随时随地享受高清动漫体验
                     </div>
                     
-                    <div class="player-card">
-                        <h3><i class="fas fa-mobile-alt"></i> 手机/平板播放器</h3>
-                        <p><strong>运行环境:</strong> Android & iOS</p>
-                        <p>保存网盘下载安装包</p>
-                        <a href="https://pan.baidu.com/s/1D6nkHlOEVMXv8dw4CTFnbQ?pwd=0603" class="download-btn" target="_blank">
-                            <i class="fas fa-download"></i> 下载安装包
-                        </a>
+                    <div class="download-links">
+                        <div class="download-link">
+                            <h4><i class="fas fa-download"></i> Ⅰ下载安装包</h4>
+                            <a href="https://pan.quark.cn/s/e89c590e6624" class="download-btn" target="_blank">
+                                夸克网盘下载
+                            </a>
+                        </div>
+                        
+                        <div class="download-link">
+                            <h4><i class="fas fa-download"></i> Ⅱ下载安装包</h4>
+                            <a href="https://drive.uc.cn/s/935115ea9aa14?public=1" class="download-btn" target="_blank">
+                                UC网盘下载
+                            </a>
+                        </div>
+                        
+                        <div class="download-link">
+                            <h4><i class="fas fa-download"></i> Ⅲ下载安装包</h4>
+                            <a href="https://pan.baidu.com/s/1ciLMuNWAv-1AbiqF7hpEVw?pwd=0603" class="download-btn" target="_blank">
+                                百度网盘下载
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <!-- 播放器下方广告单元 -->
-            <div class="ad-container">
-                <h3><i class="fas fa-ad"></i> 热门动漫</h3>
-                <div class="ad-content">
-                    <!-- AdSense 广告单元 -->
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7482183704344535"
-                         crossorigin="anonymous"></script>
-                    <!-- AVPSY1_播放器下方广告 -->
-                    <ins class="adsbygoogle"
-                         style="display:block"
-                         data-ad-client="ca-pub-7482183704344535"
-                         data-ad-slot="3298494401"
-                         data-ad-format="auto"
-                         data-full-width-responsive="true"></ins>
-                    <script>
-                         (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
-                </div>
-            </div>
+            <!-- 新增的间距区域 -->
+            <div class="spacing-area"></div>
         </div>
         
         <footer>
-            <p>© 2023 AVPSY1 - Anime Video Pan Sync | 动漫视频网盘同步分享平台</p>
+            <p>© 2023 AVPSY1 - Anime Video Pan Sync | 动漫视频网盘分享平台</p>
             <p>免责声明：本平台所有资源均来自网络，仅供学习交流使用，请于下载后24小时内删除</p>
         </footer>
     </div>
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // 文件存在性验证
-            fetch('/ads.txt')
-                .then(response => {
-                    if(!response.ok) console.log('ads.txt验证: 文件未找到');
-                    else console.log('ads.txt验证: 文件存在');
-                })
-                .catch(error => console.log('ads.txt验证失败', error));
-            
             const loadingOverlay = document.getElementById('loading-overlay');
             const iframe = document.getElementById('smart-table');
             const refreshBtn = document.getElementById('refresh-btn');
@@ -730,22 +778,37 @@
             }, 3000);
             
             // 动画效果
-            const cards = document.querySelectorAll('.player-card');
-            cards.forEach((card, index) => {
+            const downloadLinks = document.querySelectorAll('.download-link');
+            downloadLinks.forEach((link, index) => {
                 setTimeout(() => {
-                    card.style.opacity = '0';
-                    card.style.transform = 'translateY(20px)';
-                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    link.style.opacity = '0';
+                    link.style.transform = 'translateY(20px)';
+                    link.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
                     
                     setTimeout(() => {
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
+                        link.style.opacity = '1';
+                        link.style.transform = 'translateY(0)';
                     }, 100);
                 }, 300 * index);
             });
             
-            // 初始化所有广告单元
-            (adsbygoogle = window.adsbygoogle || []).push({});
+            // 广告加载后检查
+            setTimeout(() => {
+                const ads = document.querySelectorAll('.adsbygoogle');
+                if (ads.length > 0) {
+                    ads.forEach(ad => {
+                        ad.setAttribute('data-loading', 'lazy');
+                    });
+                }
+                
+                // 添加广告加载失败处理
+                adsbygoogle.push({}).catch(error => {
+                    console.error('AdSense加载失败: ', error);
+                    document.querySelectorAll('.ad-container').forEach(container => {
+                        container.innerHTML = '<p class="ad-fallback">广告加载中...</p>';
+                    });
+                });
+            }, 3000);
         });
     </script>
 </body>
